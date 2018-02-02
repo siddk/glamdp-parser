@@ -32,7 +32,7 @@ with io.open('train.bdm', 'r', encoding='utf-8') as trainfile:
 print len(train_sentences)
 # label the test data
 test_sentences = {}
-with io.open('train.bdm', 'r', encoding='utf-8') as testfile:
+with io.open('test.bdm', 'r', encoding='utf-8') as testfile:
     while True:
         sentence = testfile.readline()
         if sentence == '':
@@ -52,11 +52,12 @@ with io.open('train.bdm', 'r', encoding='utf-8') as testfile:
             label = classes
             classes += 1
         test_sentences[sentence] = label
-with io.open('train.txt', 'w', encoding='utf-8') as trainfile:
+print len(test_sentences)
+with io.open('train.csv', 'w', encoding='utf-8') as trainfile:
+    trainfile.write(unicode("ID,COMMAND\n"))
     for s, l in train_sentences.iteritems():
-        trainfile.write(s)
-        trainfile.write(unicode(str(l) + "\n"))
-with io.open('test.txt', 'w', encoding='utf-8') as testfile:
+        trainfile.write(unicode(str(l) + "," + "\"" + s[:-1] + "\"\n"))
+with io.open('test.csv', 'w', encoding='utf-8') as testfile:
+    testfile.write(unicode("ID,COMMAND\n"))
     for s, l in test_sentences.iteritems():
-        testfile.write(s)
-        testfile.write(unicode(str(l) + "\n"))
+        testfile.write(unicode(str(l) + "," + "\"" + s[:-1] + "\"\n"))
